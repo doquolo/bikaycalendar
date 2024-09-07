@@ -8,6 +8,7 @@ from ics import Calendar, Event
 import pytz
 import json
 import time
+import io
 import PySimpleGUI as sg
 sg.theme("SystemDefaultForReal")
 
@@ -117,8 +118,8 @@ def exportCal(path, start_date, end_date):
 
                     # create a new event
                     event = Event()
-                    event.name = f"Tên học phần: {subject['Tên lớp học phần']}"
-                    event.description = f"Giảng viên: {subject['Giảng viên']}\nTiết: {period}\nMã môn học: {subject['Mã']}"
+                    event.name = f"Môn: {subject['Tên lớp học phần']}"
+                    event.description = f"Giảng viên: {subject['Giảng viên']} - Tiết: {period} - Mã môn học: {subject['Mã']}"
                     event.location = tkb[2]
                     event.begin = (local.localize(datetime.strptime(f"{subject['Ngày học']}-{duration[0]}", "%d/%m/%Y-%H:%M")).astimezone(pytz.utc)).strftime("%Y-%m-%d %H:%M:%S")
                     event.end = (local.localize(datetime.strptime(f"{subject['Ngày học']}-{duration[1]}", "%d/%m/%Y-%H:%M")).astimezone(pytz.utc)).strftime("%Y-%m-%d %H:%M:%S")
@@ -128,5 +129,7 @@ def exportCal(path, start_date, end_date):
         break
     window.close()
 
+
     with open(path, 'w', encoding='utf-8') as my_file:
-        my_file.writelines(calendar)
+        serialized_calendar = calendar.serialize().replace('\n', '')
+        my_file.writelines(serialized_calendar)
