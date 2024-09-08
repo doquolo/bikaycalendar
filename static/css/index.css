@@ -1,0 +1,92 @@
+body,
+html {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5%;
+}
+
+input,
+select {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 50%;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.inputdiv {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.inputdiv > p {
+  padding-right: 0.5rem;
+}
+
+.textinput {
+  height: 25px;
+  width: 200px;
+  margin-bottom: 1rem;
+}
+
+.buttoninput,
+.button {
+  height: 30px;
+  width: 100%;
+  background-color: #1baaec;
+  color: rgb(255, 255, 255);
+  border: 1px solid black;
+  align-content: center;
+  text-align: center;
+}
+
+.buttoninput:active,
+.button:active {
+  background-color: #0a394e;
+}
+
+#datecodepicker {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#datecodepicker > * {
+  padding: 0.25rem;
+  margin: 0px;
+  margin-right: 0.5rem;
+}
+
+#datecodepicker > select {
+  height: 40px;
+  width: 90px;
+}
+
+#datecodepicker > input {
+  height: 40px;
+  width: 60px;
+}
+
+#data {
+  display: none;
+}

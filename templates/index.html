@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/index.css")
+    }}''> <link rel="stylesheet" href='{{ url_for("static",
+    filename="css/supportTable.css") }}''>
+    <title>bndtwnhatquadatuuwuwuw</title>
+  </head>
+  <body>
+      <!-- <div class="container" id="loginpanel" style="display: none;"> -->
+    <div class="container" id="loginpanel" style="display: flex;">
+      <div class="title"></div>
+      <div class="login">
+        <div class="inputdiv">
+          <p>Mã sv:</p>
+          <input type="text" id="username" class="textinput" />
+        </div>
+        <div class="inputdiv">
+          <p>Mật khẩu:</p>
+          <input type="password" id="password" class="textinput" />
+        </div>
+        <input
+          type="button"
+          value="Đăng nhập"
+          class="buttoninput"
+          id="loginbtn"
+        />
+      </div>
+    </div>
+    <!-- <div class="container" id="mainpanel" style="display: flex;"> -->
+    <div class="container" id="mainpanel" style="display: none;">
+      <div id="datecodepicker">
+        <p>Kì học:</p>
+        <select id="hockipicker">
+          <option value="10">Học kì I</option>
+          <option value="20">Học kì II</option>
+          <option value="21">Học hè :<</option>
+        </select>
+        <input type="number" min="1900" max="2099" step="1" id="nampicker" />
+        <div class="button" id="getData">Lấy dữ liệu</div>
+      </div>
+      <div class="schedule">
+        <table>
+            <tr></tr>
+        </table>
+      </div>
+      <div id="data"></div>
+    </div>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ics.deps.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+  </body>
+</html>
