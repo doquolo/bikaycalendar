@@ -3,6 +3,21 @@ import bs4
 
 
 def login(user, passwd):
+    header = {
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "accept-encoding": "gzip, deflate",
+        "accept-language": "en-US,en;q=0.9",
+        "cache-control": "max-age=0",
+        "connection": "keep-alive",
+        "content-length": "8434",
+        "content-type": "application/x-www-form-urlencoded",
+        "dnt": "1",
+        "host": "sv.dut.udn.vn",
+        "origin": "http://sv.dut.udn.vn",
+        "referer": "http://sv.dut.udn.vn/PageDangNhap.aspx",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+    }
     s = requests.Session() 
     s.get('http://sv.dut.udn.vn/PageLogout.aspx')
     payload={
@@ -12,7 +27,7 @@ def login(user, passwd):
         '_ctl0:MainContent:DN_txtPass': passwd,
         '_ctl0:MainContent:QLTH_btnLogin': 'Đăng nhập'
     }
-    login = s.post('http://sv.dut.udn.vn/PageDangNhap.aspx', payload)
+    login = s.post('http://sv.dut.udn.vn/PageDangNhap.aspx', payload, headers=header)
     soup = bs4.BeautifulSoup(login.text, features="html.parser")
     status = soup.find("span", {"id": "lblErr"})
     s.close()
