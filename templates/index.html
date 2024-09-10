@@ -6,12 +6,17 @@
     <link rel="stylesheet" href='{{ url_for("static", filename="css/index.css")
     }}''> <link rel="stylesheet" href='{{ url_for("static",
     filename="css/supportTable.css") }}''>
-    <title>bndtwnhatquadatuuwuwuw</title>
+    <title>DUTCalendar</title>
   </head>
   <body>
       <!-- <div class="container" id="loginpanel" style="display: none;"> -->
     <div class="container" id="loginpanel" style="display: flex;">
-      <div class="title"></div>
+      <div class="title">
+        <div class="header">
+          <p class="bikay">DUT</p><p class="bikay_subtext">calendar</p>
+        </div>
+        <p class="subtextforeal">vì 1 tương lai không ngủ quên 🌷</p>
+      </div>
       <div class="login">
         <div class="inputdiv">
           <p>Mã sv:</p>
@@ -31,8 +36,15 @@
     </div>
     <!-- <div class="container" id="mainpanel" style="display: flex;"> -->
     <div class="container" id="mainpanel" style="display: none;">
+      <div class="title">
+        <div class="header">
+          <p class="bikay">DUT</p><p class="bikay_subtext">calendar</p>
+        </div>
+        <p class="subtextforeal">vì 1 tương lai không ngủ quên 🌷</p>
+      </div>
+      <div id="welcome_text"></div>
       <div id="datecodepicker">
-        <p>Kì học:</p>
+        <p style="white-space: nowrap;">Kì học:</p>
         <select id="hockipicker">
           <option value="10">Học kì I</option>
           <option value="20">Học kì II</option>
@@ -40,11 +52,6 @@
         </select>
         <input type="number" min="1900" max="2099" step="1" id="nampicker" />
         <div class="button" id="getData">Lấy dữ liệu</div>
-      </div>
-      <div class="schedule">
-        <table>
-            <tr></tr>
-        </table>
       </div>
       <div id="data"></div>
     </div>

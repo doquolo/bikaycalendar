@@ -15,14 +15,16 @@ def login():
         data = request.get_json(force=True)
         username = data['username']
         password = data['password']
-        return {"status": dut.login(username, password)}        
+        return dut.login(username, password)
     else:
         return render_template('login.html')
 
-@app.route('/getCal', methods=["GET"])
+@app.route('/getCal', methods=["POST"])
 def queryCal():
-    datecode = request.args.get("datecode")
-    return dut.getCal(datecode)
+    data = request.get_json(force=True)
+    datecode = data['datecode']
+    cookie = data['cookie']
+    return dut.getCal(datecode, cookie)
 
 @app.route('/getWeekInTerm', methods=["GET"])
 def getWeek():
@@ -84,4 +86,4 @@ def getTimetable():
     return jsonify(data)
 
 
-app.run('0.0.0.0', debug=True)
+app.run('0.0.0.0', port=80, debug=True)

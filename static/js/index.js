@@ -1,3 +1,6 @@
+// variables
+let cookie = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#loginbtn").addEventListener("click", () => {
         const username = document.querySelector("#username").value;
@@ -12,8 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 return req.json()
             })
             .then(req => {
-                if (req.status) {
-                    alert("Đăng nhập thành công!");
+                if (req.status == "success") {
+                    cookie = req.cookie;
+                    document.querySelector("#welcome_text").textContent = req.name;
                     document.querySelector("#loginpanel").style.display = 'none';
                     document.querySelector("#mainpanel").style.display = 'flex';
                 } else {
@@ -25,7 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#nampicker").value = new Date().getFullYear();
     document.querySelector("#getData").addEventListener('click', () => {
         const datecode = `${(document.querySelector('#nampicker').value) % 100}${document.querySelector('#hockipicker').value}`
-        fetch(`/getCal?datecode=${datecode}`)
+        fetch(`/getCal`, {
+            method: 'POST',
+            body: JSON.stringify({
+                datecode: datecode,
+                cookie: cookie
+            })
+        })
         .then(req => {return req.text()})
         .then(res => {
             document.querySelector("#data").innerHTML = res;
@@ -35,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
             child.innerHTML = '<th class="GridHeaderCell" width="30">TT</th>';
             document.querySelector("#TTKB_GridInfo > tbody > tr:nth-child(1)").prepend(child);
 
-            document.querySelector("#mainpanel").style.bottom = 'unset';
+            // document.querySelector("#mainpanel").style.bottom = 'unset';
 
             const schedule = tableToJSON("TTKB_GridInfo");
             schedule.pop();
