@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const password = document.querySelector("#password").value;
         if (username == "" || password == "") alert("Mã SV hoặc mật khẩu không được để trống!");
         else {
+            document.querySelector("#loginbtn").disabled = true;
             fetch("/login", {
                 method: "POST",
                 body: JSON.stringify({ 'username': username, 'password': password})
@@ -22,12 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.querySelector("#mainpanel").style.display = 'flex';
                 } else {
                     alert("Kiểm tra lại mssv và mật khẩu :(");
+                    document.querySelector("#loginbtn").disabled = false;
                 }
             })
         }
     })
     document.querySelector("#nampicker").value = new Date().getFullYear();
     document.querySelector("#getData").addEventListener('click', () => {
+        document.querySelector("#getData").disabled = true;
+        alert("Đang lấy lịch học, bạn đợi chút nhé ~");
         const datecode = `${(document.querySelector('#nampicker').value) % 100}${document.querySelector('#hockipicker').value}`
         fetch(`/getCal`, {
             method: 'POST',
@@ -39,21 +43,21 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(req => {return req.text()})
         .then(res => {
             document.querySelector("#data").innerHTML = res;
-
+            
             document.querySelector("#TTKB_GridInfo > tbody > tr:nth-child(1)").remove();
             const child = document.createElement('th');
             child.innerHTML = '<th class="GridHeaderCell" width="30">TT</th>';
             document.querySelector("#TTKB_GridInfo > tbody > tr:nth-child(1)").prepend(child);
-
+            
             // document.querySelector("#mainpanel").style.bottom = 'unset';
-
+            
             const schedule = tableToJSON("TTKB_GridInfo");
             schedule.pop();
             console.log(schedule);
             parseToCal(schedule);
         })
     })
-
+    
     function tableToJSON(tableId) {
         // Get the table element
         const table = document.getElementById(tableId);
@@ -67,32 +71,32 @@ document.addEventListener("DOMContentLoaded", () => {
         // Get rows from tbody
         const rows = table.querySelectorAll('tbody tr.GridRow');
         rows.forEach(row => {
-          const cells = row.querySelectorAll('td');
-          const rowData = {};
-          cells.forEach((cell, index) => {
-            // Avoid adding data if index exceeds header length
-            if (index < headers.length) {
-              rowData[headers[index]] = cell.innerText.trim();
-            }
-          });
-          data.push(rowData);
+            const cells = row.querySelectorAll('td');
+            const rowData = {};
+            cells.forEach((cell, index) => {
+                // Avoid adding data if index exceeds header length
+                if (index < headers.length) {
+                    rowData[headers[index]] = cell.innerText.trim();
+                }
+            });
+            data.push(rowData);
         });
-      
+        
         return data
     }
-
+    
     async function parseToCal(schedule) {
         let weekInTerm;
         await fetch(`/getWeekInTerm?term=${document.querySelector('#hockipicker').value}`)
-            .then(req => {return req.json()})
-            .then(res => weekInTerm = res);
+        .then(req => {return req.json()})
+        .then(res => weekInTerm = res);
         let timetable;
         await fetch(`/getTimetable`)
-            .then(req => {return req.json()})
-            .then(res => timetable = res);
+        .then(req => {return req.json()})
+        .then(res => timetable = res);
         var cal = ics();
         for (let i in schedule) {
-                
+            
             const subjectName = `Môn: ${schedule[i]['Tên lớp học phần']}`;
             const description = `GV: ${schedule[i]['Giảng viên']}`;
             
@@ -134,6 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         console.log(cal.events());
+        alert("Lấy lịch học thành công! Bạn kiểm tra mục tải về nhé ^^");
         cal.download();
+        document.querySelector("#getData").disabled = false;
     }
 })
