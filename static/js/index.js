@@ -96,44 +96,30 @@ document.addEventListener("DOMContentLoaded", () => {
             const subjectName = `Môn: ${schedule[i]['Tên lớp học phần']}`;
             const description = `GV: ${schedule[i]['Giảng viên']}`;
             
-            const tkb_raw = (schedule[i]['Thời khóa biểu']).trim().split(";")
-            if (tkb_raw.length == 1) {
-                const tkb = (tkb_raw[0]).trim().split(",");
-                const weekday = tkb[0];
-                const period = (tkb[1]).trim().split("-");
-                const location = tkb[2];
-                const studyweek = (schedule[i]['Tuần học']).trim().split(";")
-                for (let i in studyweek) {
-                    const week = (studyweek[i]).trim().split("-");
-                    const weekStart = Number(week[0]); 
-                    const weekEnd = Number(week[1]);
+            const tkb_raw = (schedule[i]['Thời khóa biểu']).trim().split(";");
+            const studyweek = (schedule[i]['Tuần học']).trim().split(";")
+            for (let weekPart in studyweek) {
+                
+                // week data 
+                const week = studyweek[weekPart].trim().split('-');
+                const weekStart = Number(week[0]); 
+                const weekEnd = Number(week[1]);
+                
+                // tkb data
+                for (let tkbIndex in tkb_raw) {
+                    const tkb = (tkb_raw[tkbIndex]).trim().split(",");
+                    const weekday = tkb[0];
+                    const period = (tkb[1]).trim().split("-");
+                    const location = tkb[2];
                     for (let j = weekStart; j < weekEnd+1; j++) {
                         const timeStart = moment(`${weekInTerm[j][weekday]} ${timetable[period[0]]['start']}`, "DD/MM/YYYY HH:mm").toDate();
                         const timeEnd = moment(`${weekInTerm[j][weekday]} ${timetable[period[1]]['end']}`, "DD/MM/YYYY HH:mm").toDate();
                         cal.addEvent(subjectName, description, location, timeStart, timeEnd);
                     }
                 }
-            } else {
-                for (let b in tkb_raw) {
-                    const tkb = (tkb_raw[b]).trim().split(",");
-                    const weekday = tkb[0];
-                    const period = (tkb[1]).trim().split("-");
-                    const location = tkb[2];
-                    const studyweek = (schedule[i]['Tuần học']).trim().split(";")
-                    for (let i in studyweek) {
-                        const week = (studyweek[i]).trim().split("-");
-                        const weekStart = Number(week[0]); 
-                        const weekEnd = Number(week[1]);
-                        for (let j = weekStart; j < weekEnd+1; j++) {
-                            const timeStart = moment(`${weekInTerm[j][weekday]} ${timetable[period[0]]['start']}`, "DD/MM/YYYY HH:mm").toDate();
-                            const timeEnd = moment(`${weekInTerm[j][weekday]} ${timetable[period[1]]['end']}`, "DD/MM/YYYY HH:mm").toDate();
-                            cal.addEvent(subjectName, description, location, timeStart, timeEnd);
-                        }
-                    }
-                }
             }
         }
-        console.log(cal.events());
+        // console.log(cal.events());
         cal.download();
     }
 })
