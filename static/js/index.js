@@ -3,9 +3,11 @@ let cookie = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#loginbtn").addEventListener("click", () => {
+        document.querySelector("#loginbtn").disabled = true;
+        document.querySelector("#loginbtn").value = "Đang đăng nhập...";
         const username = document.querySelector("#username").value;
         const password = document.querySelector("#password").value;
-        if (username == "" || password == "") alert("Mã SV hoặc mật khẩu không được để trống!");
+        if (username == "" || password == "") alert("MSSV hoặc mật khẩu không được để trống!");
         else {
             fetch("/login", {
                 method: "POST",
@@ -22,12 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.querySelector("#mainpanel").style.display = 'flex';
                 } else {
                     alert("Kiểm tra lại mssv và mật khẩu :(");
+                    document.querySelector("#loginbtn").disabled = false;
+                    document.querySelector("#loginbtn").value = "Đăng nhập";
                 }
             })
         }
     })
     document.querySelector("#nampicker").value = new Date().getFullYear();
     document.querySelector("#getData").addEventListener('click', () => {
+        document.querySelector("#getData").disabled = true;
+        document.querySelector("#getData").value = "Đang lấy dữ liệu...";
         const datecode = `${(document.querySelector('#nampicker').value) % 100}${document.querySelector('#hockipicker').value}`
         fetch(`/getCal`, {
             method: 'POST',
@@ -119,7 +125,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         }
-        // console.log(cal.events());
-        cal.download();
+        document.querySelector("#getData").disabled = false;
+        document.querySelector("#getData").value = "Lấy dữ liệu";
+        alert("Hoàn tất lấy lịch. Bấm OK để tải lịch về máy!");
+        let filename = `${document.querySelector("#username").value} - ${document.querySelector("#hockipicker").selectedOptions[0].label} ${document.querySelector("#nampicker").value}`
+        cal.download(filename);
     }
 })
