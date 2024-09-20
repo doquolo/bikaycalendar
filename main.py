@@ -57,7 +57,7 @@ def getWeek():
         "Thursday": "Thứ 5",
         "Friday": "Thứ 6",
         "Saturday": "Thứ 7",
-        "Sunday": "Chủ Nhật"
+        "Sunday": "CN"
     }
     
     weeks = {}
@@ -86,4 +86,4 @@ def getTimetable():
     return jsonify(data)
 
 
-app.run('0.0.0.0', port=80)
+app.run('0.0.0.0')
