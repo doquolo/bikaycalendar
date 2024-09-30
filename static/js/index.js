@@ -3,9 +3,11 @@ let cookie = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#loginbtn").addEventListener("click", () => {
+        document.querySelector("#loginbtn").disabled = true;
+        document.querySelector("#loginbtn").value = "Đang đăng nhập...";
         const username = document.querySelector("#username").value;
         const password = document.querySelector("#password").value;
-        if (username == "" || password == "") alert("Mã SV hoặc mật khẩu không được để trống!");
+        if (username == "" || password == "") alert("MSSV hoặc mật khẩu không được để trống!");
         else {
             document.querySelector("#loginbtn").disabled = true;
             fetch("/login", {
@@ -24,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     alert("Kiểm tra lại mssv và mật khẩu :(");
                     document.querySelector("#loginbtn").disabled = false;
+                    document.querySelector("#loginbtn").value = "Đăng nhập";
                 }
             })
         }
@@ -31,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#nampicker").value = new Date().getFullYear();
     document.querySelector("#getData").addEventListener('click', () => {
         document.querySelector("#getData").disabled = true;
-        alert("Đang lấy lịch học, bạn đợi chút nhé ~");
+        document.querySelector("#getData").value = "Đang lấy dữ liệu...";
         const datecode = `${(document.querySelector('#nampicker').value) % 100}${document.querySelector('#hockipicker').value}`
         fetch(`/getCal`, {
             method: 'POST',
@@ -100,46 +103,33 @@ document.addEventListener("DOMContentLoaded", () => {
             const subjectName = `Môn: ${schedule[i]['Tên lớp học phần']}`;
             const description = `GV: ${schedule[i]['Giảng viên']}`;
             
-            const tkb_raw = (schedule[i]['Thời khóa biểu']).trim().split(";")
-            if (tkb_raw.length == 1) {
-                const tkb = (tkb_raw[0]).trim().split(",");
-                const weekday = tkb[0];
-                const period = (tkb[1]).trim().split("-");
-                const location = tkb[2];
-                const studyweek = (schedule[i]['Tuần học']).trim().split(";")
-                for (let i in studyweek) {
-                    const week = (studyweek[i]).trim().split("-");
-                    const weekStart = Number(week[0]); 
-                    const weekEnd = Number(week[1]);
+            const tkb_raw = (schedule[i]['Thời khóa biểu']).trim().split(";");
+            const studyweek = (schedule[i]['Tuần học']).trim().split(";")
+            for (let weekPart in studyweek) {
+                
+                // week data 
+                const week = studyweek[weekPart].trim().split('-');
+                const weekStart = Number(week[0]); 
+                const weekEnd = Number(week[1]);
+                
+                // tkb data
+                for (let tkbIndex in tkb_raw) {
+                    const tkb = (tkb_raw[tkbIndex]).trim().split(",");
+                    const weekday = tkb[0];
+                    const period = (tkb[1]).trim().split("-");
+                    const location = tkb[2];
                     for (let j = weekStart; j < weekEnd+1; j++) {
                         const timeStart = moment(`${weekInTerm[j][weekday]} ${timetable[period[0]]['start']}`, "DD/MM/YYYY HH:mm").toDate();
                         const timeEnd = moment(`${weekInTerm[j][weekday]} ${timetable[period[1]]['end']}`, "DD/MM/YYYY HH:mm").toDate();
                         cal.addEvent(subjectName, description, location, timeStart, timeEnd);
                     }
                 }
-            } else {
-                for (let b in tkb_raw) {
-                    const tkb = (tkb_raw[b]).trim().split(",");
-                    const weekday = tkb[0];
-                    const period = (tkb[1]).trim().split("-");
-                    const location = tkb[2];
-                    const studyweek = (schedule[i]['Tuần học']).trim().split(";")
-                    for (let i in studyweek) {
-                        const week = (studyweek[i]).trim().split("-");
-                        const weekStart = Number(week[0]); 
-                        const weekEnd = Number(week[1]);
-                        for (let j = weekStart; j < weekEnd+1; j++) {
-                            const timeStart = moment(`${weekInTerm[j][weekday]} ${timetable[period[0]]['start']}`, "DD/MM/YYYY HH:mm").toDate();
-                            const timeEnd = moment(`${weekInTerm[j][weekday]} ${timetable[period[1]]['end']}`, "DD/MM/YYYY HH:mm").toDate();
-                            cal.addEvent(subjectName, description, location, timeStart, timeEnd);
-                        }
-                    }
-                }
             }
         }
-        console.log(cal.events());
-        alert("Lấy lịch học thành công! Bạn kiểm tra mục tải về nhé ^^");
-        cal.download();
         document.querySelector("#getData").disabled = false;
+        document.querySelector("#getData").value = "Lấy dữ liệu";
+        alert("Hoàn tất lấy lịch. Bấm OK để tải lịch về máy!");
+        let filename = `${document.querySelector("#username").value} - ${document.querySelector("#hockipicker").selectedOptions[0].label} ${document.querySelector("#nampicker").value}`
+        cal.download(filename);
     }
 })
