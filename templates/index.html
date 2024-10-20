@@ -1,62 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href='{{ url_for("static", filename="css/index.css")
-    }}''> <link rel="stylesheet" href='{{ url_for("static",
-    filename="css/supportTable.css") }}''>
-    <title>DUTCalendar</title>
-  </head>
-  <body>
-      <!-- <div class="container" id="loginpanel" style="display: none;"> -->
-    <div class="container" id="loginpanel" style="display: flex;">
-      <div class="title">
-        <div class="header">
-          <p class="bikay">DUT</p><p class="bikay_subtext">calendar</p>
-        </div>
-        <p class="subtextforeal">vì 1 tương lai không ngủ quên 🌷</p>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href='{{ url_for("static", filename="css/index.css")
+    }}''> <link rel="stylesheet" href=' {{ url_for("static", filename="css/supportTable.css" ) }}''>
+  <title>DUTCalendar</title>
+</head>
+
+<body>
+  <!-- <div class="container" id="loginpanel" style="display: none;"> -->
+  <div class="container" id="loginpanel" style="display: flex;">
+    <div class="title">
+      <div class="header">
+        <p class="bikay">DUT</p>
+        <p class="bikay_subtext">calendar</p>
       </div>
-      <div class="login">
-        <div class="inputdiv">
-          <p>MSSV:</p>
-          <input type="text" id="username" class="textinput" />
-        </div>
-        <div class="inputdiv">
-          <p>Mật khẩu:</p>
-          <input type="password" id="password" class="textinput" />
-        </div>
-        <input
-          type="button"
-          value="Đăng nhập"
-          class="buttoninput"
-          id="loginbtn"
-        />
-      </div>
+      <p class="subtextforeal">vì 1 tương lai không ngủ quên 🌷</p>
     </div>
-    <!-- <div class="container" id="mainpanel" style="display: flex;"> -->
-    <div class="container" id="mainpanel" style="display: none;">
-      <div class="title">
-        <div class="header">
-          <p class="bikay">DUT</p><p class="bikay_subtext">calendar</p>
-        </div>
-        <p class="subtextforeal">vì 1 tương lai không ngủ quên 🌷</p>
+    <div class="login">
+      <div class="inputdiv">
+        <p>MSSV:</p>
+        <input type="text" id="username" class="textinput" />
       </div>
-      <div id="welcome_text"></div>
-      <div id="datecodepicker">
-        <p style="white-space: nowrap;">Kì học:</p>
-        <select id="hockipicker">
-          <option value="10">Học kì 1</option>
-          <option value="20">Học kì 2</option>
-          <option value="21">Học hè :<</option>
-        </select>
-        <input type="number" min="1900" max="2099" step="1" id="nampicker" />
-        <input type="button" class="button" id="getData" value="Lấy dữ liệu"/>
+      <div class="inputdiv">
+        <p>Mật khẩu:</p>
+        <input type="password" id="password" class="textinput" />
       </div>
-      <div id="data"></div>
+      <input type="button" value="Đăng nhập" class="buttoninput" id="loginbtn" />
     </div>
-    <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/ics.deps.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-  </body>
+  </div>
+  <!-- <div class="container" id="mainpanel" style="display: flex;"> -->
+  <div class="container" id="mainpanel" style="display: none;">
+    <div class="title">
+      <div class="header">
+        <p class="bikay">DUT</p>
+        <p class="bikay_subtext">calendar</p>
+      </div>
+      <p class="subtextforeal">vì 1 tương lai không ngủ quên 🌷</p>
+    </div>
+    <div id="welcome_text"></div>
+    <div id="datecodepicker">
+      <p style="white-space: nowrap;">Kì học:</p>
+      <select id="hockipicker">
+        <option value="10">Học kì 1</option>
+        <option value="20">Học kì 2</option>
+        <option value="21">Học hè :(</option>
+      </select>
+      <input type="number" min="1900" max="2099" step="1" id="nampicker" />
+      <input type="button" class="button" id="getData" value="Lấy dữ liệu" />
+    </div>
+    <form action="" onsubmit="return false;" id="subjectForm">
+      <table id="subjectPickerContainer">
+        <tr style="font-weight: 600;">
+          <td>Nhập?</td>
+          <td>Tên môn</td>
+          <td>Giảng viên</td>
+        </tr>
+      </table>
+      </label><br />
+      <input type="submit" class="button" value="Xuất lịch" onclick="handleSubjectPicker()" />
+    </form>
+    <div id="data"></div>
+  </div>
+  <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/ics.deps.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
 </html>
