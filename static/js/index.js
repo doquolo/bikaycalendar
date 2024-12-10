@@ -28,7 +28,10 @@ const createCheckboxList = (list) => {
 
 const convertToSubjectObject = (data) => {
     console.log(data);
+    
     const tkb_raw = String(data['Thời khóa biểu']).trim().split(";");
+    if (tkb_raw == "") { console.log("err here!"); return 0;}
+
     const studyweek = String(data['Tuần học']).trim().split(";");
 
     let subjectDetail = {
