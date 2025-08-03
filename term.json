@@ -1,20 +1,20 @@
 {
     "10": {
-        "start": "09/09/2024",
-        "weekstart": 7,
-        "end": "29/12/2024",
-        "weekend": 22
+        "start": "04/08/2025",
+        "weekstart": 1,
+        "end": "24/11/2025",
+        "weekend": 17
     },
     "20": {
-        "start": "10/02/2025",
-        "weekstart": 29,
-        "end": "01/6/2025",
-        "weekend": 44
+        "start": "29/12/2025",
+        "weekstart": 22,
+        "end": "11/05/2026",
+        "weekend": 41
     },
     "21": {
-        "start": "30/06/2025",
-        "weekstart": 49,
-        "end": "27/7/2025",
+        "start": "15/06/2026",
+        "weekstart": 46,
+        "end": "27/07/2026",
         "weekend": 52
     }
 }
